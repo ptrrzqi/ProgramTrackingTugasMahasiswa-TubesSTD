@@ -1,15 +1,11 @@
 #include "TaskTree.h"
 #include <cstring>
 
-// -------------------------------------
-// Inisialisasi Tree
-// -------------------------------------
 void initTree(Month &M, const char nama[]) {
     strcpy(M.namaBulan, nama);
 
     M.listWeek = NULL;
-
-    // buat pekan 1–4
+    
     Week *last = NULL;
     for (int i = 1; i <= 4; i++) {
         Week *w = new Week;
@@ -26,16 +22,12 @@ void initTree(Month &M, const char nama[]) {
     }
 }
 
-// -------------------------------------
-// Tambah Tugas
-// -------------------------------------
 void tambahTugas(Month &M, int pekan,
                  const char matkul[],
                  const char namaTugas[],
                  const char jenis[],
                  const char deadline[]) {
 
-    // cari node pekan
     Week *w = M.listWeek;
     while (w != NULL) {
         if (w->mingguKe == pekan) break;
@@ -43,7 +35,6 @@ void tambahTugas(Month &M, int pekan,
     }
     if (w == NULL) return;
 
-    // cari matkul
     Course *c = w->listCourse;
     Course *lastCourse = NULL;
     while (c != NULL) {
@@ -52,7 +43,6 @@ void tambahTugas(Month &M, int pekan,
         c = c->next;
     }
 
-    // jika matkul belum ada → buat
     if (c == NULL) {
         c = new Course;
         strcpy(c->namaMatkul, matkul);
@@ -65,7 +55,6 @@ void tambahTugas(Month &M, int pekan,
             lastCourse->next = c;
     }
 
-    // buat task baru
     Task *t = new Task;
     strcpy(t->namaTugas, namaTugas);
     strcpy(t->jenisTugas, jenis);
@@ -83,9 +72,6 @@ void tambahTugas(Month &M, int pekan,
     }
 }
 
-// -------------------------------------
-// Tampilkan Tugas Bulanan
-// -------------------------------------
 void tampilBulanan(Month M) {
     cout << "\n=== DAFTAR TUGAS BULAN " << M.namaBulan << " ===\n";
 
@@ -112,9 +98,6 @@ void tampilBulanan(Month M) {
     }
 }
 
-// -------------------------------------
-// Tugas berdasarkan pekan
-// -------------------------------------
 void tampilPekan(Month M, int pekan) {
     Week *w = M.listWeek;
     while (w != NULL && w->mingguKe != pekan)
@@ -143,9 +126,6 @@ void tampilPekan(Month M, int pekan) {
     }
 }
 
-// -------------------------------------
-// Semua tugas per mata kuliah (1 bulan)
-// -------------------------------------
 void tampilMatkul(Month M, const char matkul[]) {
     cout << "\n=== TUGAS MATA KULIAH " << matkul << " ===\n";
 
