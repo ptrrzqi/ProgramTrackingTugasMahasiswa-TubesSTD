@@ -1,4 +1,2 @@
-Edit #2 :
-file yang di-upload sudah bisa langsung di pull dan dijalankan lewat CodeBlocks,
-Data Tugas dalam program masih hardcode di bagian "projek.cpp".
-(code masih dibuat dan dibantu dari AI DeepSeek 🥀)
+Edit #4 :
+comment masih disimpan dalam program agar memudahkan cari fitur, untuk menu 3 cari mata kuliah sudah diganti seperti menu 4 agar tidak perlu mengetik nama mata kuliahnya (masih AI 😂)
