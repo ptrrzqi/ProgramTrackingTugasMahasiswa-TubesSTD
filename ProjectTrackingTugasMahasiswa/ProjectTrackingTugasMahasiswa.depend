@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1766136065 source:d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\projek.cpp
+	"projek.h"
+	<cstring>
+
+1766135722 d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\projek.h
+	<iostream>
+
+1766136073 source:d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\main.cpp
+	<iostream>
+	"projek.h"
+
+1766219834 source:d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\projecttrackingtugasmahasiswa\main.cpp
+	"projek.h"
+	"bulan.h"
+	<iostream>
+
+1766219271 d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\projecttrackingtugasmahasiswa\projek.h
+	<iostream>
+
+1766220260 source:d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\projecttrackingtugasmahasiswa\projek.cpp
+	"projek.h"
+	<iostream>
+
+1766219661 source:d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\projecttrackingtugasmahasiswa\bulan.cpp
+	"bulan.h"
+	<iostream>
+
+1766219278 d:\tugastelu\smst3\struktur data\program_tracking_tugas_mahasiswa\programtrackingtugas\projecttrackingtugasmahasiswa\bulan.h
+	"projek.h"
+
