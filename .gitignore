@@ -1,0 +1,10 @@
+# Code::Blocks
+*.depend
+*.layout
+
+# Build files
+bin/
+obj/
+
+# Executable
+*.exe

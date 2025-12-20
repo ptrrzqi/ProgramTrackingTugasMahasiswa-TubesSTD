@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+//tes_push_github
+
 void salinString(char tujuan[], const char asal[]) {
     int i = 0;
     while (asal[i] != '\0') {
