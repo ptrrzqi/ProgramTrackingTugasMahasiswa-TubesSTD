@@ -16,9 +16,9 @@ int main() {
     muatDummyData(daftarBulan);
     muatDataTugas(jadwal);
 
-    int pilihan;
+    int pilihan = -1;
 
-    do {
+    while (pilihan != 0) {
         cout << "\n=== MENU UTAMA ===\n";
         cout << "1. Lihat Semua Tugas Bulanan\n";
         cout << "2. Lihat Tugas per-Pekan\n";
@@ -90,7 +90,7 @@ int main() {
             }
         }
 
-    } while (pilihan != 0);
+    };
 
     cout << "\n========================================\n";
     cout << "   Terima kasih telah menggunakan\n";
