@@ -20,19 +20,27 @@ struct MataKuliah {
 struct Pekan {
     int mingguKe;
     MataKuliah *daftarMatkul;
-    Pekan *berikutnya;
+    Pekan *left;
+    Pekan *right;
 };
 
 struct Bulan {
     char namaBulan[20];
-    Pekan *daftarPekan;
+    Pekan *root;
 };
 
 void inisialisasiPohon(Bulan &B);
 void muatDataTugas(Bulan &B);
+
 void tampilkanBulanan(Bulan B);
+void tampilkanBulananRapi(Bulan B);
 void tampilkanPekanan(Bulan B, int pekan);
 void tampilkanPerMatkul(Bulan B, const char matkul[]);
 void tampilkanDaftarMatkul();
+
+void salinString(char tujuan[], const char asal[]);
+Pekan* insertPekan(Pekan *root, int minggu);
+Pekan* cariPekan(Pekan *root, int minggu);
+
 
 #endif

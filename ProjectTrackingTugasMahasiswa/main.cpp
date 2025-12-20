@@ -1,5 +1,7 @@
 #include <iostream>
 #include "projek.h"
+#include "bulan.h"
+
 using namespace std;
 
 int main() {
@@ -9,7 +11,9 @@ int main() {
 
     Bulan jadwal;
     inisialisasiPohon(jadwal);
-
+    Bulan daftarBulan[JUMLAH_BULAN];
+    inisialisasiSemuaBulan(daftarBulan);
+    muatDummyData(daftarBulan);
     muatDataTugas(jadwal);
 
     int pilihan;
@@ -27,19 +31,37 @@ int main() {
 
         switch (pilihan) {
             case 1: {
-                tampilkanBulanan(jadwal);
+                for (int i = 0; i < 12; i++) {
+                    cout << endl;
+                    tampilkanBulananRapi(daftarBulan[i]);
+                    cout << endl;
+                }
                 break;
             }
 
             case 2: {
-                int p;
-                cout << "\nMasukkan nomor pekan (1-4): ";
-                cin >> p;
+                cout << "\n=== Pilih Bulan ===\n";
+                for (int i = 0; i < 12; i++) {
+                    cout << i+1 << ". " << daftarBulan[i].namaBulan << "\n";
+                }
 
-                if (p < 1 || p > 4) {
+                int bulanPilihan;
+                cout << "Masukkan nomor bulan (1-12): ";
+                cin >> bulanPilihan;
+
+                if (bulanPilihan < 1 || bulanPilihan > 12) {
+                    cout << "Pilih antara bulan 1-12!\n";
+                    break;
+                }
+
+                int pekanPilihan;
+                cout << "Masukkan nomor pekan (1-4): ";
+                cin >> pekanPilihan;
+
+                if (pekanPilihan < 1 || pekanPilihan > 4) {
                     cout << "Pilih antara pekan 1-4!\n";
                 } else {
-                    tampilkanPekanan(jadwal, p);
+                    tampilkanPekanan(daftarBulan[bulanPilihan - 1], pekanPilihan);
                 }
                 break;
             }

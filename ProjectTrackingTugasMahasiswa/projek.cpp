@@ -2,215 +2,337 @@
 #include <iostream>
 using namespace std;
 
-//tes_push_github
-
 void salinString(char tujuan[], const char asal[]) {
     int i = 0;
     while (asal[i] != '\0') {
         tujuan[i] = asal[i];
-        i = i + 1;
+        i++;
     }
     tujuan[i] = '\0';
 }
 
+/* ================= BST PEKAN ================= */
+
+Pekan* buatPekan(int minggu) {
+    Pekan *p = new Pekan;
+    p->mingguKe = minggu;
+    p->daftarMatkul = NULL;
+    p->left = NULL;
+    p->right = NULL;
+    return p;
+}
+
+Pekan* insertPekan(Pekan *root, int minggu) {
+    if (root == NULL) {
+        return buatPekan(minggu);
+    }
+
+    if (minggu < root->mingguKe) {
+        root->left = insertPekan(root->left, minggu);
+    } else if (minggu > root->mingguKe) {
+        root->right = insertPekan(root->right, minggu);
+    }
+
+    return root;
+}
+
+Pekan* cariPekan(Pekan *root, int minggu) {
+    if (root == NULL || root->mingguKe == minggu) {
+        return root;
+    }
+
+    if (minggu < root->mingguKe) {
+        return cariPekan(root->left, minggu);
+    }
+
+    return cariPekan(root->right, minggu);
+}
+
+/* ================= INISIALISASI ================= */
+
 void inisialisasiPohon(Bulan &B) {
     salinString(B.namaBulan, "Januari");
-    B.daftarPekan = NULL;
+    B.root = NULL;
 
-    for (int i = 4; i >= 1; i = i - 1) {
-        Pekan *p = new Pekan;
-        p->mingguKe = i;
-        p->daftarMatkul = NULL;
-        p->berikutnya = B.daftarPekan;
-        B.daftarPekan = p;
+    for (int i = 1; i <= 4; i++) {
+        B.root = insertPekan(B.root, i);
     }
 }
+
+/* ================= MUAT DATA ================= */
 
 void muatDataTugas(Bulan &B) {
-    cout << "Memuat data tugas ke dalam sistem...\n";
+    cout << "Memuat data tugas...\n";
 
-    Pekan *p1 = B.daftarPekan;
-    while (p1 != NULL) {
-        if (p1->mingguKe == 1) {
-            break;
-        }
-        p1 = p1->berikutnya;
+    Pekan *p;
+
+    p = cariPekan(B.root, 1);
+    if (p != NULL) {
+        MataKuliah *m = new MataKuliah;
+        salinString(m->namaMatkul, "strukturdata");
+
+        Tugas *t = new Tugas;
+        salinString(t->namaTugas, "Quiz Linked List");
+        salinString(t->jenisTugas, "Quiz");
+        salinString(t->tenggatWaktu, "10 Jan");
+        t->berikutnya = NULL;
+
+        m->daftarTugas = t;
+        m->berikutnya = p->daftarMatkul;
+        p->daftarMatkul = m;
     }
 
-    if (p1 != NULL) {
-        MataKuliah *m1 = new MataKuliah;
-        salinString(m1->namaMatkul, "strukturdata");
+    p = cariPekan(B.root, 2);
+    if (p != NULL) {
+        MataKuliah *m = new MataKuliah;
+        salinString(m->namaMatkul, "sistembasisdata");
 
-        Tugas *t1 = new Tugas;
-        salinString(t1->namaTugas, "Quiz Linked List");
-        salinString(t1->jenisTugas, "Quiz");
-        salinString(t1->tenggatWaktu, "10 Jan");
-        t1->berikutnya = NULL;
+        Tugas *t = new Tugas;
+        salinString(t->namaTugas, "ER Diagram");
+        salinString(t->jenisTugas, "Tugas");
+        salinString(t->tenggatWaktu, "15 Jan");
+        t->berikutnya = NULL;
 
-        m1->daftarTugas = t1;
-        m1->berikutnya = p1->daftarMatkul;
-        p1->daftarMatkul = m1;
+        m->daftarTugas = t;
+        m->berikutnya = p->daftarMatkul;
+        p->daftarMatkul = m;
     }
 
-    Pekan *p2 = B.daftarPekan;
-    while (p2 != NULL) {
-        if (p2->mingguKe == 2) {
-            break;
-        }
-        p2 = p2->berikutnya;
+    p = cariPekan(B.root, 3);
+    if (p != NULL) {
+        MataKuliah *m = new MataKuliah;
+        salinString(m->namaMatkul, "sistemoperasi");
+
+        Tugas *t = new Tugas;
+        salinString(t->namaTugas, "Tugas Process");
+        salinString(t->jenisTugas, "Tugas");
+        salinString(t->tenggatWaktu, "20 Jan");
+        t->berikutnya = NULL;
+
+        m->daftarTugas = t;
+        m->berikutnya = p->daftarMatkul;
+        p->daftarMatkul = m;
     }
 
-    if (p2 != NULL) {
-        MataKuliah *m2 = new MataKuliah;
-        salinString(m2->namaMatkul, "sistembasisdata");
+    p = cariPekan(B.root, 4);
+    if (p != NULL) {
+        MataKuliah *m = new MataKuliah;
+        salinString(m->namaMatkul, "strukturdata");
 
-        Tugas *t2 = new Tugas;
-        salinString(t2->namaTugas, "ER Diagram");
-        salinString(t2->jenisTugas, "Tugas");
-        salinString(t2->tenggatWaktu, "15 Jan");
-        t2->berikutnya = NULL;
+        Tugas *t = new Tugas;
+        salinString(t->namaTugas, "UTS");
+        salinString(t->jenisTugas, "Ujian");
+        salinString(t->tenggatWaktu, "25 Jan");
+        t->berikutnya = NULL;
 
-        m2->daftarTugas = t2;
-        m2->berikutnya = p2->daftarMatkul;
-        p2->daftarMatkul = m2;
+        m->daftarTugas = t;
+        m->berikutnya = p->daftarMatkul;
+        p->daftarMatkul = m;
     }
 
-    Pekan *p3 = B.daftarPekan;
-    while (p3 != NULL) {
-        if (p3->mingguKe == 3) {
-            break;
-        }
-        p3 = p3->berikutnya;
-    }
-
-    if (p3 != NULL) {
-        MataKuliah *m3 = new MataKuliah;
-        salinString(m3->namaMatkul, "sistemoperasi");
-
-        Tugas *t3 = new Tugas;
-        salinString(t3->namaTugas, "Tugas Process");
-        salinString(t3->jenisTugas, "Tugas");
-        salinString(t3->tenggatWaktu, "20 Jan");
-        t3->berikutnya = NULL;
-
-        m3->daftarTugas = t3;
-        m3->berikutnya = p3->daftarMatkul;
-        p3->daftarMatkul = m3;
-    }
-
-    Pekan *p4 = B.daftarPekan;
-    while (p4 != NULL) {
-        if (p4->mingguKe == 4) {
-            break;
-        }
-        p4 = p4->berikutnya;
-    }
-
-    if (p4 != NULL) {
-        MataKuliah *m4 = new MataKuliah;
-        salinString(m4->namaMatkul, "strukturdata");
-
-        Tugas *t4 = new Tugas;
-        salinString(t4->namaTugas, "UTS");
-        salinString(t4->jenisTugas, "Ujian");
-        salinString(t4->tenggatWaktu, "25 Jan");
-        t4->berikutnya = NULL;
-
-        m4->daftarTugas = t4;
-        m4->berikutnya = p4->daftarMatkul;
-        p4->daftarMatkul = m4;
-    }
-
-    cout << "Berhasil memuat data tugas!\n\n";
+    cout << "Berhasil memuat data!\n\n";
 }
 
-void tampilkanBulanan(Bulan B) {
-    cout << "\n=== DAFTAR TUGAS BULAN " << B.namaBulan << " ===\n";
+/* ================= CEK MATKUL ================= */
 
-    Pekan *p = B.daftarPekan;
-    bool adaTugas = false;
+bool matkulTerdaftar(const char matkul[]) {
+    const char daftar[][30] = {
+        "strukturdata",
+        "teoripeluang",
+        "sistembasisdata",
+        "teoribahasaautomata",
+        "sistemoperasi"
+    };
 
-    while (p != NULL) {
-        bool adaTugasPekan = false;
+    for (int i = 0; i < 5; i++) {
+        int j = 0;
+        bool sama = true;
 
-        MataKuliah *m = p->daftarMatkul;
-        while (m != NULL) {
-            if (m->daftarTugas != NULL) {
-                adaTugasPekan = true;
-                adaTugas = true;
+        while (daftar[i][j] != '\0' && matkul[j] != '\0') {
+            if (daftar[i][j] != matkul[j]) {
+                sama = false;
                 break;
+            }
+            j++;
+        }
+
+        if (sama && daftar[i][j] == '\0' && matkul[j] == '\0') {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/* ================= TRAVERSAL ================= */
+
+const int LINE_WIDTH = 60;
+
+
+void tampilkanBulananBST(Pekan *root) {
+    if (root == NULL) return;
+
+    tampilkanBulananBST(root->left);
+
+    MataKuliah *m = root->daftarMatkul;
+    if (m != NULL) {
+        cout << "\n--- Pekan " << root->mingguKe << " ---\n";
+        while (m != NULL) {
+            cout << "Mata Kuliah: " << m->namaMatkul << "\n";
+            Tugas *t = m->daftarTugas;
+            while (t != NULL) {
+                cout << "  - " << t->namaTugas
+                     << " (" << t->jenisTugas
+                     << "), Tenggat: " << t->tenggatWaktu << "\n";
+                t = t->berikutnya;
             }
             m = m->berikutnya;
         }
-
-        if (adaTugasPekan) {
-            cout << "\n--- Pekan " << p->mingguKe << " ---\n";
-
-            MataKuliah *m = p->daftarMatkul;
-            while (m != NULL) {
-                if (m->daftarTugas != NULL) {
-                    cout << "\nMata Kuliah: " << m->namaMatkul << "\n";
-
-                    Tugas *t = m->daftarTugas;
-                    while (t != NULL) {
-                        cout << "  - " << t->namaTugas;
-                        cout << " (" << t->jenisTugas << ")";
-                        cout << ", Tenggat: " << t->tenggatWaktu << "\n";
-                        t = t->berikutnya;
-                    }
-                }
-                m = m->berikutnya;
-            }
-        }
-
-        p = p->berikutnya;
     }
 
-    if (adaTugas == false) {
-        cout << "\nBelum ada tugas untuk bulan ini.\n";
-    }
+    tampilkanBulananBST(root->right);
 }
 
-void tampilkanPekanan(Bulan B, int pekan) {
-    Pekan *p = B.daftarPekan;
-    while (p != NULL && p->mingguKe != pekan) {
-        p = p->berikutnya;
+void tampilkanPekanRapiBST(Pekan *root) {
+    if (root == NULL) return;
+
+    tampilkanPekanRapiBST(root->left);
+
+    cout << "--------------------- Pekan " << root->mingguKe << " -------------------------\n";
+
+    bool adaTugas = false;
+    MataKuliah *m = root->daftarMatkul;
+    while (m != NULL) {
+        Tugas *t = m->daftarTugas;
+        while (t != NULL) {
+            adaTugas = true;
+            cout << "Mata Kuliah: " << m->namaMatkul << "\n";
+            cout << "  - " << t->namaTugas
+                 << " (" << t->jenisTugas << ")"
+                 << ", Tenggat: " << t->tenggatWaktu << "\n";
+            t = t->berikutnya;
+        }
+        m = m->berikutnya;
     }
 
-    if (p == NULL || pekan < 1 || pekan > 4) {
-        cout << "Pekan tidak ditemukan! (Hanya pekan 1-4)\n";
+    if (!adaTugas) cout << "Tidak ada tugas untuk pekan ini.\n";
+
+    cout << "\n";
+
+    tampilkanPekanRapiBST(root->right);
+}
+
+void tampilkanPekanRapi(Pekan *root) {
+    if (root == NULL) return;
+
+    tampilkanPekanRapi(root->left);
+
+    cout << "--------------------- Pekan " << root->mingguKe << " -------------------------\n";
+
+    bool adaTugasPekan = false;
+    MataKuliah *m = root->daftarMatkul;
+    while (m != NULL) {
+        Tugas *t = m->daftarTugas;
+        while (t != NULL) {
+            adaTugasPekan = true;
+            cout << "Mata Kuliah: " << m->namaMatkul << "\n";
+            cout << "  - " << t->namaTugas
+                 << " (" << t->jenisTugas << ")"
+                 << ", Tenggat: " << t->tenggatWaktu << "\n";
+            t = t->berikutnya;
+        }
+        m = m->berikutnya;
+    }
+
+    if (!adaTugasPekan) {
+        cout << "Tidak ada tugas untuk pekan ini.\n";
+    }
+
+    cout << "\n";
+    tampilkanPekanRapi(root->right);
+}
+
+void tampilkanBulananRapi(Bulan B) {
+    for (int i = 0; i < LINE_WIDTH; i++) cout << "=";
+    cout << "\n";
+
+    std::string judul = "Daftar Tugas Bulan " + std::string(B.namaBulan);
+    int padding = (LINE_WIDTH - judul.length()) / 2;
+    for (int i = 0; i < padding; i++) cout << " ";
+    cout << judul << "\n";
+
+    for (int i = 0; i < LINE_WIDTH; i++) cout << "=";
+    cout << "\n\n";
+
+    tampilkanPekanRapiBST(B.root);
+
+    for (int i = 0; i < LINE_WIDTH; i++) cout << "=";
+    cout << "\n\n";
+}
+
+
+void tampilkanPekanan(Bulan B, int pekan) {
+    Pekan *p = cariPekan(B.root, pekan);
+    if (p == NULL) {
+        cout << "Pekan tidak ditemukan!\n";
         return;
     }
 
     cout << "\n=== TUGAS PEKAN " << pekan << " ===\n";
 
-    bool adaTugas = false;
     MataKuliah *m = p->daftarMatkul;
-
     if (m == NULL) {
-        cout << "\nTidak ada tugas untuk pekan ini.\n";
+        cout << "Tidak ada tugas.\n";
         return;
     }
 
     while (m != NULL) {
-        if (m->daftarTugas != NULL) {
-            adaTugas = true;
-            cout << "\nMata Kuliah: " << m->namaMatkul << "\n";
+        cout << "Mata Kuliah: " << m->namaMatkul << "\n";
+        Tugas *t = m->daftarTugas;
+        while (t != NULL) {
+            cout << "  - " << t->namaTugas
+                 << " (" << t->jenisTugas
+                 << "), Tenggat: " << t->tenggatWaktu << "\n";
+            t = t->berikutnya;
+        }
+        m = m->berikutnya;
+    }
+}
 
+void tampilkanPerMatkulBST(Pekan *root, const char matkul[], bool &ditemukan, bool &adaTugas) {
+    if (root == NULL) return;
+
+    tampilkanPerMatkulBST(root->left, matkul, ditemukan, adaTugas);
+
+    MataKuliah *m = root->daftarMatkul;
+    while (m != NULL) {
+        bool sama = true;
+        int i = 0;
+
+        while (matkul[i] != '\0' && m->namaMatkul[i] != '\0') {
+            if (matkul[i] != m->namaMatkul[i]) {
+                sama = false;
+                break;
+            }
+            i++;
+        }
+
+        if (sama && matkul[i] == '\0' && m->namaMatkul[i] == '\0') {
+            ditemukan = true;
             Tugas *t = m->daftarTugas;
             while (t != NULL) {
-                cout << "  - " << t->namaTugas;
-                cout << " (" << t->jenisTugas << ")";
-                cout << ", Tenggat: " << t->tenggatWaktu << "\n";
+                adaTugas = true;
+                cout << "Pekan " << root->mingguKe << " -> ";
+                cout << t->namaTugas
+                     << " (" << t->jenisTugas
+                     << "), Tenggat: " << t->tenggatWaktu << "\n";
                 t = t->berikutnya;
             }
         }
         m = m->berikutnya;
     }
 
-    if (adaTugas == false) {
-        cout << "\nTidak ada tugas untuk pekan ini.\n";
-    }
+    tampilkanPerMatkulBST(root->right, matkul, ditemukan, adaTugas);
 }
 
 void tampilkanPerMatkul(Bulan B, const char matkul[]) {
@@ -219,44 +341,21 @@ void tampilkanPerMatkul(Bulan B, const char matkul[]) {
     bool ditemukan = false;
     bool adaTugas = false;
 
-    Pekan *p = B.daftarPekan;
-    while (p != NULL) {
-        MataKuliah *m = p->daftarMatkul;
-        while (m != NULL) {
-            bool sama = true;
-            int i = 0;
-            while (matkul[i] != '\0' && m->namaMatkul[i] != '\0') {
-                if (matkul[i] != m->namaMatkul[i]) {
-                    sama = false;
-                    break;
-                }
-                i = i + 1;
-            }
+    tampilkanPerMatkulBST(B.root, matkul, ditemukan, adaTugas);
 
-            if (sama && matkul[i] == '\0' && m->namaMatkul[i] == '\0') {
-                ditemukan = true;
-
-                Tugas *t = m->daftarTugas;
-                while (t != NULL) {
-                    adaTugas = true;
-                    cout << "Pekan " << p->mingguKe << " -> ";
-                    cout << t->namaTugas;
-                    cout << " (" << t->jenisTugas << ")";
-                    cout << ", Tenggat: " << t->tenggatWaktu << "\n";
-                    t = t->berikutnya;
-                }
-            }
-            m = m->berikutnya;
+    if (!ditemukan) {
+        if (matkulTerdaftar(matkul)) {
+            cout << "Mata kuliah \"" << matkul
+                 << "\" terdaftar, belum terdapat tugas baru!\n";
+        } else {
+            cout << "Mata kuliah \"" << matkul
+                 << "\" tidak ditemukan!\n";
+            tampilkanDaftarMatkul();
         }
-        p = p->berikutnya;
-    }
-
-    if (ditemukan == false) {
-        cout << "Mata kuliah \"" << matkul << "\" tidak ditemukan!\n";
-        tampilkanDaftarMatkul();
-    } else if (adaTugas == false) {
+    } else if (!adaTugas) {
         cout << "Belum ada tugas untuk mata kuliah ini.\n";
     }
+
 }
 
 void tampilkanDaftarMatkul() {
@@ -269,3 +368,4 @@ void tampilkanDaftarMatkul() {
     cout << "5. sistemoperasi\n";
     cout << "====================================\n";
 }
+
