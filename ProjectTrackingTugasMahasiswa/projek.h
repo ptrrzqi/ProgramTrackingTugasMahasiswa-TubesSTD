@@ -1,5 +1,8 @@
 #ifndef PROJEK_H
 #define PROJEK_H
+#define QUIZ  1
+#define TUGAS 2
+#define UJIAN  3
 
 #include <iostream>
 using namespace std;
@@ -77,6 +80,16 @@ void tampilkanPekanTertentu(Bulan bulan, int pekan);
 void cariTugasPerMataKuliah(Bulan bulan, const char matkul[]);
 void tampilkanMenuUtama();
 void tampilkanDaftarMataKuliah();
+
+// Fungsi untuk memilih mata kuliah
+MataKuliah* pilihMataKuliah(MataKuliah* root);
+void simpanInOrder(MataKuliah* node, MataKuliah* arr[], int& idx);
+
+// Fungsi Delete berdasarkan Nama
+Tugas* cariTugasByNama(Tugas* root, const char namaTugas[]);
+Tugas* deleteTugasByNama(Tugas* root, const char namaTugas[], bool& berhasil);
+void deleteTugasByNamaMK(MataKuliah* mk);
+void deleteTugasFromBulan(Bulan& bulan);
 
 // Konstanta Data
 const int JUMLAH_BULAN = 12;

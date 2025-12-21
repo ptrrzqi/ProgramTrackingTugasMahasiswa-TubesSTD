@@ -172,6 +172,34 @@ int main()
                 break;
             }
 
+            case 5:
+            {
+                clearScreen();
+                cout << "DELETE TUGAS\n\n";
+
+                cout << "Pilih Bulan:\n";
+                for (int i = 0; i < JUMLAH_BULAN; i++)
+                    cout << "  " << i + 1 << ". " << semuaBulan[i].nama << endl;
+
+                int bulanPilihan;
+                cout << "\nMasukkan nomor bulan (1-12): ";
+                cin >> bulanPilihan;
+
+                if (bulanPilihan < 1 || bulanPilihan > 12) {
+                    cout << "\nPilihan bulan tidak valid!\n";
+                    pauseProgram();
+                    clearScreen();
+                    break;
+                }
+
+                clearScreen();
+                deleteTugasFromBulan(semuaBulan[bulanPilihan - 1]);
+
+                pauseProgram();
+                clearScreen();
+                break;
+            }
+
             case 0:
             {
                 // Keluar program

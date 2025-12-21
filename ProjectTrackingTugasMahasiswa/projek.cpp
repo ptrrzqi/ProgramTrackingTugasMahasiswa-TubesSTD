@@ -1,5 +1,6 @@
 #include "projek.h"
 #include <iostream>
+#include <cctype>
 using namespace std;
 
 // ==================== FUNGSI UTILITAS ====================
@@ -48,6 +49,15 @@ void pauseProgram()
     cin.get();
 }
 
+// Fungsi untuk debugging - tampilkan jenis dan deadline semua tugas
+void tampilkanJenisTugasDiBST(Tugas* root) {
+    if (root == NULL) return;
+
+    tampilkanJenisTugasDiBST(root->kiri);
+    cout << "  - Jenis: " << root->jenis << " | Deadline: " << root->deadline << endl;
+    tampilkanJenisTugasDiBST(root->kanan);
+}
+
 // ==================== FUNGSI BST - TUGAS ====================
 
 // Fungsi untuk membuat node tugas baru
@@ -85,6 +95,16 @@ Tugas* tambahTugasBST(Tugas* root, Tugas* baru)
     }
 
     return root;
+}
+
+// Fungsi untuk menampilkan semua tugas dengan format detail
+void tampilkanDetailTugas(Tugas* root) {
+    if (root == NULL) return;
+    tampilkanDetailTugas(root->kiri);
+    cout << "  - " << root->nama
+         << " | Jenis: \"" << root->jenis << "\""
+         << " | Deadline: \"" << root->deadline << "\"\n";
+    tampilkanDetailTugas(root->kanan);
 }
 
 // Fungsi untuk menampilkan semua tugas (in-order traversal)
@@ -434,13 +454,14 @@ void cariTugasPerMataKuliah(Bulan bulan, const char matkul[])
 // Fungsi untuk menampilkan menu utama
 void tampilkanMenuUtama()
 {
-    cout << "\n================================================\n";
+    cout << "================================================\n";
     cout << "        SISTEM MANAJEMEN TUGAS KULIAH\n";
     cout << "================================================\n";
     cout << "1. Tampilkan Semua Bulan\n";
     cout << "2. Tampilkan Tugas per Pekan\n";
     cout << "3. Cari Tugas per Mata Kuliah\n";
     cout << "4. Daftar Mata Kuliah Tersedia\n";
+    cout << "5. Hapus Tugas\n";
     cout << "0. Keluar Program\n";
     cout << "================================================\n";
     cout << "Pilihan Anda: ";
@@ -458,4 +479,229 @@ void tampilkanDaftarMataKuliah()
     cout << "4. teoribahasaautomata\n";
     cout << "5. sistemoperasi\n";
     cout << "================================================\n";
+}
+
+
+//-----------------DELETE-------------------------
+
+// Fungsi helper untuk menyimpan mata kuliah ke array
+void simpanInOrder(MataKuliah* node, MataKuliah* arr[], int& idx) {
+    if (node == NULL) return;
+    simpanInOrder(node->kiri, arr, idx);
+    arr[idx++] = node;
+    simpanInOrder(node->kanan, arr, idx);
+}
+
+MataKuliah* pilihMataKuliah(MataKuliah* root)
+{
+    if (root == NULL)
+    {
+        cout << "Tidak ada mata kuliah!\n";
+        return NULL;
+    }
+
+    // Array untuk menyimpan mata kuliah
+    MataKuliah* daftar[50];
+    int jumlah = 0;
+
+    // Simpan semua mata kuliah ke array
+    simpanInOrder(root, daftar, jumlah);
+
+    // Tampilkan pilihan
+    cout << "\nDaftar Mata Kuliah:\n";
+    for (int i = 0; i < jumlah; i++)
+    {
+        cout << i + 1 << ". " << daftar[i]->nama << endl;
+    }
+
+    // Minta input user
+    int pilih;
+    cout << "\nPilih mata kuliah (angka): ";
+    cin >> pilih;
+
+    if (pilih < 1 || pilih > jumlah)
+    {
+        cout << "Pilihan tidak valid!\n";
+        return NULL;
+    }
+
+    return daftar[pilih - 1];
+}
+
+// Fungsi untuk mencari tugas berdasarkan nama
+Tugas* cariTugasByNama(Tugas* root, const char namaTugas[]) {
+    if (root == NULL) return NULL;
+
+    int cmp = bandingkanString(namaTugas, root->nama);
+
+    if (cmp == 0) return root;
+    else if (cmp < 0) return cariTugasByNama(root->kiri, namaTugas);
+    else return cariTugasByNama(root->kanan, namaTugas);
+}
+
+// Fungsi untuk menghapus tugas berdasarkan nama dari BST
+Tugas* deleteTugasByNama(Tugas* root, const char namaTugas[], bool& berhasil) {
+    if (root == NULL) return NULL;
+
+    int cmp = bandingkanString(namaTugas, root->nama);
+
+    if (cmp == 0) {
+        berhasil = true;
+
+        // Case 1: No children
+        if (root->kiri == NULL && root->kanan == NULL) {
+            delete root;
+            return NULL;
+        }
+        // Case 2: One child (right)
+        else if (root->kiri == NULL) {
+            Tugas* temp = root->kanan;
+            delete root;
+            return temp;
+        }
+        // Case 3: One child (left)
+        else if (root->kanan == NULL) {
+            Tugas* temp = root->kiri;
+            delete root;
+            return temp;
+        }
+        // Case 4: Two children
+        else {
+            // Find inorder successor (smallest in right subtree)
+            Tugas* successor = root->kanan;
+            while (successor->kiri != NULL) {
+                successor = successor->kiri;
+            }
+
+            // Copy data
+            salinString(root->nama, successor->nama);
+            salinString(root->jenis, successor->jenis);
+            salinString(root->deadline, successor->deadline);
+
+            // Delete successor
+            root->kanan = deleteTugasByNama(root->kanan, successor->nama, berhasil);
+            return root;
+        }
+    }
+    else if (cmp < 0) {
+        root->kiri = deleteTugasByNama(root->kiri, namaTugas, berhasil);
+    }
+    else {
+        root->kanan = deleteTugasByNama(root->kanan, namaTugas, berhasil);
+    }
+
+    return root;
+}
+
+// Fungsi utama untuk menghapus tugas berdasarkan nama
+void deleteTugasByNamaMK(MataKuliah* mk) {
+    if (mk == NULL) {
+        cout << "Error: Mata kuliah tidak ditemukan!\n";
+        return;
+    }
+
+    cout << "\n==================================================\n";
+    cout << "DELETE TUGAS - " << mk->nama << "\n";
+    cout << "==================================================\n";
+
+    if (mk->tugas == NULL) {
+        cout << "\nTidak ada tugas dalam mata kuliah ini.\n";
+        cout << "==================================================\n";
+        return;
+    }
+
+    cout << "\nDAFTAR TUGAS:\n";
+    cout << "--------------------------------------------------\n";
+    tampilkanTugasBST(mk->tugas);
+    cout << "--------------------------------------------------\n";
+
+    char namaTugas[50];
+    cout << "\nMasukkan nama tugas yang ingin dihapus: ";
+    cin.ignore();
+    cin.getline(namaTugas, 50);
+
+    Tugas* tugasDitemukan = cariTugasByNama(mk->tugas, namaTugas);
+
+    if (tugasDitemukan == NULL) {
+        cout << "\nERROR: Tugas \"" << namaTugas << "\" tidak ditemukan!\n";
+        cout << "Pastikan nama tugas sama persis.\n";
+        return;
+    }
+
+    cout << "\n==================================================\n";
+    cout << "TUGAS YANG AKAN DIHAPUS:\n";
+    cout << "--------------------------------------------------\n";
+    cout << "Nama     : " << tugasDitemukan->nama << "\n";
+    cout << "Jenis    : " << tugasDitemukan->jenis << "\n";
+    cout << "Deadline : " << tugasDitemukan->deadline << "\n";
+    cout << "--------------------------------------------------\n";
+
+    char konfirmasi;
+    cout << "\nApakah yakin ingin menghapus? (y/n): ";
+    cin >> konfirmasi;
+
+    if (konfirmasi != 'y' && konfirmasi != 'Y') {
+        cout << "\nPenghapusan dibatalkan.\n";
+        return;
+    }
+
+    bool berhasil = false;
+    mk->tugas = deleteTugasByNama(mk->tugas, namaTugas, berhasil);
+
+    if (berhasil) {
+        cout << "\n==================================================\n";
+        cout << "SUKSES: Tugas berhasil dihapus!\n";
+        cout << "==================================================\n\n";
+
+        cout << "SISA TUGAS DI MATA KULIAH " << mk->nama << ":\n";
+        cout << "--------------------------------------------------\n";
+        if (mk->tugas == NULL) {
+            cout << "  (Tidak ada tugas)\n";
+        } else {
+            tampilkanTugasBST(mk->tugas);
+        }
+        cout << "--------------------------------------------------\n";
+    } else {
+        cout << "\nGagal menghapus tugas!\n";
+    }
+}
+
+// Fungsi untuk menghapus tugas dari bulan
+void deleteTugasFromBulan(Bulan& bulan) {
+    if (bulan.pekan == NULL) {
+        cout << "Tidak ada data pekan di bulan ini!\n";
+        return;
+    }
+
+    int nomorPekan;
+    cout << "\nPilih Pekan (1-4): ";
+    cin >> nomorPekan;
+
+    if (nomorPekan < 1 || nomorPekan > 4) {
+        cout << "Pekan tidak valid!\n";
+        return;
+    }
+
+    Pekan* p = cariPekanBST(bulan.pekan, nomorPekan);
+    if (p == NULL) {
+        cout << "Pekan " << nomorPekan << " tidak ditemukan!\n";
+        return;
+    }
+
+    if (p->matkul == NULL) {
+        cout << "Tidak ada mata kuliah di pekan ini!\n";
+        return;
+    }
+
+    cout << "\nMata kuliah di Pekan " << nomorPekan << ":\n";
+    cout << "--------------------------------------------------\n";
+    tampilkanMataKuliahBST(p->matkul);
+    cout << "--------------------------------------------------\n";
+
+    MataKuliah* mk = pilihMataKuliah(p->matkul);
+    if (mk == NULL) {
+        return;
+    }
+
+    deleteTugasByNamaMK(mk);
 }
