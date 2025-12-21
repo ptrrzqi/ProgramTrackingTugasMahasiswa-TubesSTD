@@ -14,7 +14,6 @@ int main() {
     Bulan daftarBulan[JUMLAH_BULAN];
     inisialisasiSemuaBulan(daftarBulan);
     muatDummyData(daftarBulan);
-    muatDataTugas(jadwal);
 
     int pilihan = -1;
 
@@ -67,10 +66,40 @@ int main() {
             }
 
             case 3: {
-                char mk[50];
-                cout << "\nNama mata kuliah (huruf kecil tanpa spasi): ";
-                cin >> mk;
-                tampilkanPerMatkul(jadwal, mk);
+                cout << "\n=== Pilih Bulan ===\n";
+                for (int i = 0; i < 12; i++) {
+                    cout << i + 1 << ". " << daftarBulan[i].namaBulan << endl;
+                }
+
+                int bulanPilihan;
+                cout << "Masukkan nomor bulan (1-12): ";
+                cin >> bulanPilihan;
+
+                if (bulanPilihan < 1 || bulanPilihan > 12) {
+                    cout << "Pilih antara bulan 1-12!" << endl;
+                    break;
+                }
+
+                tampilkanDaftarMatkul();
+
+                int pilihanMK;
+                cout << "Pilih nomor mata kuliah (1-5): ";
+                cin >> pilihanMK;
+
+                const char *namaMK = NULL;
+
+                switch (pilihanMK) {
+                    case 1: namaMK = "strukturdata"; break;
+                    case 2: namaMK = "teoripeluang"; break;
+                    case 3: namaMK = "sistembasisdata"; break;
+                    case 4: namaMK = "teoribahasaautomata"; break;
+                    case 5: namaMK = "sistemoperasi"; break;
+                    default:
+                        cout << "Pilihan mata kuliah tidak valid!" << endl;
+                        return 0;
+                }
+
+                tampilkanPerMatkul(daftarBulan[bulanPilihan - 1], namaMK);
                 break;
             }
 

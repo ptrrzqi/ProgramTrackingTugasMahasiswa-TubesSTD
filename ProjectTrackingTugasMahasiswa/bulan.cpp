@@ -25,6 +25,7 @@ void muatDummyData(Bulan daftarBulan[]) {
     Tugas *t;
 
     // ===== JANUARI =====
+    // Pekan 1
     p = cariPekan(daftarBulan[0].root, 1);
     if (p) {
         m = new MataKuliah;
@@ -40,6 +41,56 @@ void muatDummyData(Bulan daftarBulan[]) {
         m->berikutnya = p->daftarMatkul;
         p->daftarMatkul = m;
     }
+
+    // Pekan 2
+    p = cariPekan(daftarBulan[0].root, 2);
+    if (p) {
+        m = new MataKuliah;
+        salinString(m->namaMatkul, "sistembasisdata");
+
+        t = new Tugas;
+        salinString(t->namaTugas, "ER Diagram");
+        salinString(t->jenisTugas, "Tugas");
+        salinString(t->tenggatWaktu, "15 Jan");
+        t->berikutnya = NULL;
+
+        m->daftarTugas = t;
+        m->berikutnya = p->daftarMatkul;
+        p->daftarMatkul = m;
+    }
+
+    // Pekan 3
+    p = cariPekan(daftarBulan[0].root, 3);
+    if (p) {
+        m = new MataKuliah;
+        salinString(m->namaMatkul, "sistemoperasi");
+
+        t = new Tugas;
+        salinString(t->namaTugas, "Tugas Process");
+        salinString(t->jenisTugas, "Tugas");
+        salinString(t->tenggatWaktu, "20 Jan");
+        t->berikutnya = NULL;
+
+        m->daftarTugas = t;
+        m->berikutnya = p->daftarMatkul;
+        p->daftarMatkul = m;
+    }
+
+    // Pekan 4
+    p = cariPekan(daftarBulan[0].root, 4);
+    if (p) {
+        m = new MataKuliah;
+        salinString(m->namaMatkul, "strukturdata");
+
+        t = new Tugas;
+        salinString(t->namaTugas, "UTS");
+        salinString(t->jenisTugas, "Ujian");
+        salinString(t->tenggatWaktu, "25 Jan");
+        t->berikutnya = NULL;
+
+        m->daftarTugas = t;
+        m->berikutnya = p->daftarMatkul;
+        p->daftarMatkul = m;
 
     // ===== FEBRUARI =====
     p = cariPekan(daftarBulan[1].root, 2);
@@ -227,4 +278,5 @@ void muatDummyData(Bulan daftarBulan[]) {
         m->berikutnya = p->daftarMatkul;
         p->daftarMatkul = m;
     }
+}
 }
