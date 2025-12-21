@@ -1,11 +1,14 @@
-#ifndef BULAN_H_INCLUDED
-#define BULAN_H_INCLUDED
+#ifndef BULAN_H
+#define BULAN_H
 
 #include "projek.h"
 
-#define JUMLAH_BULAN 12
+// Deklarasi fungsi untuk inisialisasi data
+void initSemuaBulan(Bulan bulan[]);
+void isiDataDummy(Bulan bulan[]);
+void isiDataContoh(Bulan& bulan);
 
-void inisialisasiSemuaBulan(Bulan daftarBulan[]);
-void muatDummyData(Bulan daftarBulan[]);
+// Data mata kuliah yang tersedia
+extern const char* DAFTAR_MATKUL[];
 
-#endif // BULAN_H_INCLUDED
+#endif

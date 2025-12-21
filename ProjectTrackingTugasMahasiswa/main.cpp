@@ -1,130 +1,204 @@
-#include <iostream>
 #include "projek.h"
 #include "bulan.h"
-
+#include <iostream>
 using namespace std;
 
-int main() {
-    cout << "========================================\n";
-    cout << "    Program MANAJEMEN TUGAS KULIAH\n";
-    cout << "========================================\n";
+int main()
+{
+    // Inisialisasi semua bulan
+    Bulan semuaBulan[JUMLAH_BULAN];
+    initSemuaBulan(semuaBulan);
 
-    Bulan jadwal;
-    inisialisasiPohon(jadwal);
-    Bulan daftarBulan[JUMLAH_BULAN];
-    inisialisasiSemuaBulan(daftarBulan);
-    muatDummyData(daftarBulan);
+    // Isi data dummy untuk semua bulan
+    isiDataDummy(semuaBulan);
 
-    int pilihan = -1;
+    // Inisialisasi bulan contoh untuk fitur pencarian
+    Bulan bulanContoh;
+    initBulan(bulanContoh, "Januari");
+    isiDataContoh(bulanContoh);
 
-    while (pilihan != 0) {
-        cout << "\n=== MENU UTAMA ===\n";
-        cout << "1. Lihat Semua Tugas Bulanan\n";
-        cout << "2. Lihat Tugas per-Pekan\n";
-        cout << "3. Lihat Tugas per-Mata Kuliah\n";
-        cout << "4. Lihat Daftar Mata Kuliah\n";
-        cout << "0. Keluar Program\n";
-        cout << "Pilihan Anda: ";
+    int pilihan;
+    bool running = true;
 
+    while (running)
+    {
+        tampilkanMenuUtama();
         cin >> pilihan;
 
-        switch (pilihan) {
-            case 1: {
-                for (int i = 0; i < 12; i++) {
-                    cout << endl;
-                    tampilkanBulananRapi(daftarBulan[i]);
+        switch(pilihan)
+        {
+            case 1:
+            {
+                // Tampilkan semua bulan
+                clearScreen();
+
+                cout << "MENAMPILKAN SEMUA TUGAS 12 BULAN\n\n";
+
+                for (int i = 0; i < JUMLAH_BULAN; i++)
+                {
+                    tampilkanBulanLengkap(semuaBulan[i]);
                     cout << endl;
                 }
+
+                pauseProgram();
+                clearScreen();
+
                 break;
             }
 
-            case 2: {
-                cout << "\n=== Pilih Bulan ===\n";
-                for (int i = 0; i < 12; i++) {
-                    cout << i+1 << ". " << daftarBulan[i].namaBulan << "\n";
+            case 2:
+            {
+                // Tampilkan tugas per pekan
+                clearScreen();
+
+                cout << "PILIH BULAN DAN PEKAN\n\n";
+
+                cout << "Daftar Bulan:\n";
+                cout << "-------------\n";
+
+                for (int i = 0; i < JUMLAH_BULAN; i++)
+                {
+                    cout << "  " << i + 1 << ". " << semuaBulan[i].nama << endl;
                 }
+
+                cout << "\nMasukkan nomor bulan (1-12): ";
 
                 int bulanPilihan;
-                cout << "Masukkan nomor bulan (1-12): ";
                 cin >> bulanPilihan;
 
-                if (bulanPilihan < 1 || bulanPilihan > 12) {
-                    cout << "Pilih antara bulan 1-12!\n";
+                if (bulanPilihan < 1 || bulanPilihan > 12)
+                {
+                    cout << "\nPilihan bulan tidak valid!\n";
+                    pauseProgram();
+                    clearScreen();
                     break;
                 }
+
+                cout << "Masukkan nomor pekan (1-4): ";
 
                 int pekanPilihan;
-                cout << "Masukkan nomor pekan (1-4): ";
                 cin >> pekanPilihan;
 
-                if (pekanPilihan < 1 || pekanPilihan > 4) {
-                    cout << "Pilih antara pekan 1-4!\n";
-                } else {
-                    tampilkanPekanan(daftarBulan[bulanPilihan - 1], pekanPilihan);
-                }
-                break;
-            }
-
-            case 3: {
-                cout << "\n=== Pilih Bulan ===\n";
-                for (int i = 0; i < 12; i++) {
-                    cout << i + 1 << ". " << daftarBulan[i].namaBulan << endl;
-                }
-
-                int bulanPilihan;
-                cout << "Masukkan nomor bulan (1-12): ";
-                cin >> bulanPilihan;
-
-                if (bulanPilihan < 1 || bulanPilihan > 12) {
-                    cout << "Pilih antara bulan 1-12!" << endl;
+                if (pekanPilihan < 1 || pekanPilihan > 4)
+                {
+                    cout << "\nPilihan pekan tidak valid!\n";
+                    pauseProgram();
+                    clearScreen();
                     break;
                 }
 
-                tampilkanDaftarMatkul();
+                clearScreen();
+                tampilkanPekanTertentu(semuaBulan[bulanPilihan - 1], pekanPilihan);
 
-                int pilihanMK;
-                cout << "Pilih nomor mata kuliah (1-5): ";
-                cin >> pilihanMK;
+                pauseProgram();
+                clearScreen();
 
-                const char *namaMK = NULL;
+                break;
+            }
 
-                switch (pilihanMK) {
-                    case 1: namaMK = "strukturdata"; break;
-                    case 2: namaMK = "teoripeluang"; break;
-                    case 3: namaMK = "sistembasisdata"; break;
-                    case 4: namaMK = "teoribahasaautomata"; break;
-                    case 5: namaMK = "sistemoperasi"; break;
-                    default:
-                        cout << "Pilihan mata kuliah tidak valid!" << endl;
-                        return 0;
+            case 3:
+            {
+                clearScreen();
+                cout << "CARI TUGAS PER MATA KULIAH\n\n";
+
+                cout << "Pilih Mata Kuliah:\n";
+                cout << "------------------\n";
+                cout << "1. strukturdata\n";
+                cout << "2. teoripeluang\n";
+                cout << "3. sistembasisdata\n";
+                cout << "4. teoribahasaautomata\n";
+                cout << "5. sistemoperasi\n";
+                cout << "------------------\n";
+                cout << "Masukkan nomor mata kuliah (1-5): ";
+
+                int matkulPilihan;
+                cin >> matkulPilihan;
+
+                if (matkulPilihan < 1 || matkulPilihan > 5)
+                {
+                    cout << "\nPilihan mata kuliah tidak valid!\n";
+                    pauseProgram();
+                    clearScreen();
+                    break;
                 }
 
-                tampilkanPerMatkul(daftarBulan[bulanPilihan - 1], namaMK);
+                char matkul[50];
+                switch(matkulPilihan)
+                {
+                    case 1: salinString(matkul, "strukturdata"); break;
+                    case 2: salinString(matkul, "teoripeluang"); break;
+                    case 3: salinString(matkul, "sistembasisdata"); break;
+                    case 4: salinString(matkul, "teoribahasaautomata"); break;
+                    case 5: salinString(matkul, "sistemoperasi"); break;
+                }
+
+                cout << "\nPilih Bulan:\n";
+                cout << "------------\n";
+
+                for (int i = 0; i < JUMLAH_BULAN; i++)
+                {
+                    cout << "  " << i + 1 << ". " << semuaBulan[i].nama << endl;
+                }
+
+                cout << "\nMasukkan nomor bulan (1-12): ";
+                int bulanPilihan;
+                cin >> bulanPilihan;
+
+                if (bulanPilihan < 1 || bulanPilihan > 12)
+                {
+                    cout << "\nPilihan bulan tidak valid!\n";
+                    pauseProgram();
+                    clearScreen();
+                    break;
+                }
+
+                clearScreen();
+                cariTugasPerMataKuliah(semuaBulan[bulanPilihan - 1], matkul);
+
+                pauseProgram();
+                clearScreen();
                 break;
             }
 
-            case 4: {
-                tampilkanDaftarMatkul();
+            case 4:
+            {
+                // Daftar mata kuliah
+                clearScreen();
+                tampilkanDaftarMataKuliah();
+
+                pauseProgram();
+                clearScreen();
+
                 break;
             }
 
-            case 0: {
-                cout << "\nKeluar dari program...\n";
+            case 0:
+            {
+                // Keluar program
+                cout << "\nTerima kasih telah menggunakan program!\n";
+                cout << "   Program ditutup...\n\n";
+
+                running = false;
+
                 break;
             }
 
-            default: {
-                cout << "Pilihan tidak valid!, pilih nomor 0-4.\n";
-                break;
+            default:
+            {
+                cout << "\nPilihan tidak valid! Silakan pilih 0-4.\n";
+                pauseProgram();
+                clearScreen();
             }
         }
+    }
 
-    };
+    // Membersihkan memory
+    for (int i = 0; i < JUMLAH_BULAN; i++)
+    {
+        hapusSemuaPekan(semuaBulan[i].pekan);
+    }
 
-    cout << "\n========================================\n";
-    cout << "   Terima kasih telah menggunakan\n";
-    cout << "   Program Manajemen Tugas Kuliah\n";
-    cout << "========================================\n";
+    hapusSemuaPekan(bulanContoh.pekan);
 
     return 0;
 }

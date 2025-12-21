@@ -2,281 +2,191 @@
 #include <iostream>
 using namespace std;
 
-void inisialisasiSemuaBulan(Bulan daftarBulan[]) {
-    const char namaBulan[JUMLAH_BULAN][20] = {
+// Data mata kuliah yang tersedia
+const char* DAFTAR_MATKUL[] =
+{
+    "strukturdata",
+    "teoripeluang",
+    "sistembasisdata",
+    "teoribahasaautomata",
+    "sistemoperasi"
+};
+
+// Fungsi untuk menginisialisasi semua bulan
+void initSemuaBulan(Bulan bulan[])
+{
+    const char* namaBulan[] =
+    {
         "Januari", "Februari", "Maret", "April",
         "Mei", "Juni", "Juli", "Agustus",
         "September", "Oktober", "November", "Desember"
     };
 
-    for (int i = 0; i < JUMLAH_BULAN; i++) {
-        salinString(daftarBulan[i].namaBulan, namaBulan[i]);
-        daftarBulan[i].root = NULL;
-
-        for (int p = 1; p <= 4; p++) {
-            daftarBulan[i].root = insertPekan(daftarBulan[i].root, p);
-        }
+    for (int i = 0; i < JUMLAH_BULAN; i++)
+    {
+        initBulan(bulan[i], namaBulan[i]);
     }
 }
 
-void muatDummyData(Bulan daftarBulan[]) {
-    Pekan *p;
-    MataKuliah *m;
-    Tugas *t;
+// Fungsi untuk mengisi data dummy untuk semua bulan
+void isiDataDummy(Bulan bulan[])
+{
+    // ========== JANUARI ==========
+    tambahDataKeBulan(bulan[0], 1, "strukturdata", "Quiz Linked List", "Quiz", "10 Jan");
+    tambahDataKeBulan(bulan[0], 1, "sistembasisdata", "Pengenalan DBMS", "Tugas", "12 Jan");
 
-    // ===== JANUARI =====
-    // Pekan 1
-    p = cariPekan(daftarBulan[0].root, 1);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "strukturdata");
+    tambahDataKeBulan(bulan[0], 2, "sistembasisdata", "ER Diagram", "Tugas", "15 Jan");
+    tambahDataKeBulan(bulan[0], 2, "sistemoperasi", "Process Management", "Quiz", "18 Jan");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Quiz Linked List");
-        salinString(t->jenisTugas, "Quiz");
-        salinString(t->tenggatWaktu, "10 Jan");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[0], 3, "sistemoperasi", "Tugas Process", "Tugas", "20 Jan");
+    tambahDataKeBulan(bulan[0], 3, "teoripeluang", "Probabilitas Dasar", "Tugas", "22 Jan");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[0], 4, "strukturdata", "UTS", "Ujian", "25 Jan");
+    tambahDataKeBulan(bulan[0], 4, "teoribahasaautomata", "Finite Automata", "Tugas", "28 Jan");
 
-    // Pekan 2
-    p = cariPekan(daftarBulan[0].root, 2);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "sistembasisdata");
+    // ========== FEBRUARI ==========
+    tambahDataKeBulan(bulan[1], 1, "teoripeluang", "Distribusi Normal", "Tugas", "5 Feb");
+    tambahDataKeBulan(bulan[1], 1, "strukturdata", "Stack & Queue", "Tugas", "8 Feb");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "ER Diagram");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "15 Jan");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[1], 2, "teoribahasaautomata", "CFG Parsing", "Tugas", "18 Feb");
+    tambahDataKeBulan(bulan[1], 2, "sistembasisdata", "Normalisasi 1NF", "Tugas", "20 Feb");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[1], 3, "strukturdata", "Binary Tree", "Tugas", "22 Feb");
+    tambahDataKeBulan(bulan[1], 3, "sistemoperasi", "Thread Management", "Tugas", "25 Feb");
 
-    // Pekan 3
-    p = cariPekan(daftarBulan[0].root, 3);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "sistemoperasi");
+    // ========== MARET ==========
+    tambahDataKeBulan(bulan[2], 1, "sistemoperasi", "Process Scheduling", "Quiz", "5 Mar");
+    tambahDataKeBulan(bulan[2], 1, "teoripeluang", "Distribusi Binomial", "Tugas", "8 Mar");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Tugas Process");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "20 Jan");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[2], 2, "sistembasisdata", "Normalisasi 1NF", "Tugas", "12 Mar");
+    tambahDataKeBulan(bulan[2], 2, "strukturdata", "Graph Traversal", "Tugas", "15 Mar");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[2], 3, "sistemoperasi", "CPU Scheduling", "Tugas", "20 Mar");
+    tambahDataKeBulan(bulan[2], 3, "teoribahasaautomata", "Pushdown Automata", "Tugas", "22 Mar");
 
-    // Pekan 4
-    p = cariPekan(daftarBulan[0].root, 4);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "strukturdata");
+    tambahDataKeBulan(bulan[2], 4, "teoripeluang", "Distribusi Diskrit", "Tugas", "28 Mar");
+    tambahDataKeBulan(bulan[2], 4, "sistembasisdata", "SQL DML", "Tugas", "30 Mar");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "UTS");
-        salinString(t->jenisTugas, "Ujian");
-        salinString(t->tenggatWaktu, "25 Jan");
-        t->berikutnya = NULL;
+    // ========== APRIL ==========
+    tambahDataKeBulan(bulan[3], 1, "sistembasisdata", "Normalisasi", "Tugas", "8 Apr");
+    tambahDataKeBulan(bulan[3], 1, "strukturdata", "Hash Table", "Tugas", "10 Apr");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
+    tambahDataKeBulan(bulan[3], 2, "teoribahasaautomata", "Pushdown Automata", "Tugas", "15 Apr");
+    tambahDataKeBulan(bulan[3], 2, "sistemoperasi", "Memory Management", "Tugas", "18 Apr");
 
-    // ===== FEBRUARI =====
-    p = cariPekan(daftarBulan[1].root, 2);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "teoribahasaautomata");
+    tambahDataKeBulan(bulan[3], 3, "strukturdata", "Graph Traversal", "Tugas", "22 Apr");
+    tambahDataKeBulan(bulan[3], 3, "teoripeluang", "Regresi Linear", "Tugas", "25 Apr");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "CFG Parsing");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "18 Feb");
-        t->berikutnya = NULL;
+    // ========== MEI ==========
+    tambahDataKeBulan(bulan[4], 1, "sistemoperasi", "Memory Management", "Quiz", "3 Mei");
+    tambahDataKeBulan(bulan[4], 1, "teoripeluang", "Uji Hipotesis", "Tugas", "5 Mei");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[4], 2, "teoripeluang", "Uji Hipotesis", "Tugas", "10 Mei");
+    tambahDataKeBulan(bulan[4], 2, "sistembasisdata", "Indexing", "Tugas", "12 Mei");
 
-    // ===== MARET =====
-    p = cariPekan(daftarBulan[2].root, 3);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "sistemoperasi");
+    tambahDataKeBulan(bulan[4], 3, "sistembasisdata", "SQL Query", "Tugas", "18 Mei");
+    tambahDataKeBulan(bulan[4], 3, "strukturdata", "AVL Tree", "Tugas", "20 Mei");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "CPU Scheduling");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "20 Mar");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[4], 4, "strukturdata", "Tree & Graph", "Tugas", "25 Mei");
+    tambahDataKeBulan(bulan[4], 4, "sistemoperasi", "File System", "Tugas", "28 Mei");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    // ========== JUNI ==========
+    tambahDataKeBulan(bulan[5], 1, "teoribahasaautomata", "Turing Machine", "Tugas", "5 Jun");
+    tambahDataKeBulan(bulan[5], 1, "strukturdata", "Sorting Review", "Tugas", "8 Jun");
 
-    // ===== APRIL =====
-    p = cariPekan(daftarBulan[3].root, 1);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "sistembasisdata");
+    tambahDataKeBulan(bulan[5], 2, "teoripeluang", "Distribusi Probabilitas", "Tugas", "12 Jun");
+    tambahDataKeBulan(bulan[5], 2, "sistemoperasi", "Virtual Memory", "Tugas", "15 Jun");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Normalisasi");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "8 Apr");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[5], 3, "sistemoperasi", "Deadlock", "Tugas", "20 Jun");
+    tambahDataKeBulan(bulan[5], 3, "sistembasisdata", "Transaction", "Tugas", "22 Jun");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    // ========== JULI ==========
+    tambahDataKeBulan(bulan[6], 1, "strukturdata", "Sorting Algorithm", "Tugas", "5 Jul");
+    tambahDataKeBulan(bulan[6], 1, "teoripeluang", "ANOVA", "Tugas", "8 Jul");
 
-    // ===== MEI =====
-    p = cariPekan(daftarBulan[4].root, 4);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "strukturdata");
+    tambahDataKeBulan(bulan[6], 2, "sistembasisdata", "Transaction", "Tugas", "12 Jul");
+    tambahDataKeBulan(bulan[6], 2, "sistemoperasi", "I/O Management", "Tugas", "15 Jul");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Tree & Graph");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "25 Mei");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[6], 3, "teoribahasaautomata", "Pushdown Automata", "Tugas", "22 Jul");
+    tambahDataKeBulan(bulan[6], 3, "strukturdata", "Dynamic Programming", "Tugas", "25 Jul");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[6], 4, "teoripeluang", "Regresi Linear", "Tugas", "30 Jul");
+    tambahDataKeBulan(bulan[6], 4, "sistembasisdata", "Concurrency", "Tugas", "31 Jul");
 
-    // ===== JUNI =====
-    p = cariPekan(daftarBulan[5].root, 2);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "teoripeluang");
+    // ========== AGUSTUS ==========
+    tambahDataKeBulan(bulan[7], 1, "sistemoperasi", "Deadlock", "Tugas", "9 Agu");
+    tambahDataKeBulan(bulan[7], 1, "teoribahasaautomata", "Regular Expression", "Tugas", "12 Agu");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Distribusi Probabilitas");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "12 Jun");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[7], 2, "strukturdata", "Dynamic Programming", "Tugas", "16 Agu");
+    tambahDataKeBulan(bulan[7], 2, "teoripeluang", "Time Series", "Tugas", "18 Agu");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[7], 3, "sistembasisdata", "Indexing", "Tugas", "24 Agu");
+    tambahDataKeBulan(bulan[7], 3, "sistemoperasi", "Security", "Tugas", "26 Agu");
 
-    // ===== JULI =====
-    p = cariPekan(daftarBulan[6].root, 3);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "teoribahasaautomata");
+    // ========== SEPTEMBER ==========
+    tambahDataKeBulan(bulan[8], 1, "teoripeluang", "ANOVA", "Tugas", "4 Sep");
+    tambahDataKeBulan(bulan[8], 1, "strukturdata", "Greedy Algorithm", "Tugas", "7 Sep");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Pushdown Automata");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "22 Jul");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[8], 2, "sistembasisdata", "SQL Query", "Tugas", "15 Sep");
+    tambahDataKeBulan(bulan[8], 2, "sistemoperasi", "Networking", "Tugas", "18 Sep");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[8], 3, "teoribahasaautomata", "Regular Expression", "Tugas", "22 Sep");
+    tambahDataKeBulan(bulan[8], 3, "teoripeluang", "Sampling", "Tugas", "25 Sep");
 
-    // ===== AGUSTUS =====
-    p = cariPekan(daftarBulan[7].root, 1);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "sistemoperasi");
+    tambahDataKeBulan(bulan[8], 4, "sistemoperasi", "File System", "Tugas", "30 Sep");
+    tambahDataKeBulan(bulan[8], 4, "strukturdata", "Backtracking", "Tugas", "30 Sep");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Deadlock");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "9 Agu");
-        t->berikutnya = NULL;
+    // ========== OKTOBER ==========
+    tambahDataKeBulan(bulan[9], 1, "strukturdata", "Hash Table", "Tugas", "7 Okt");
+    tambahDataKeBulan(bulan[9], 1, "sistembasisdata", "NoSQL Intro", "Tugas", "10 Okt");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[9], 2, "teoripeluang", "Time Series", "Tugas", "14 Okt");
+    tambahDataKeBulan(bulan[9], 2, "teoribahasaautomata", "Context Free", "Tugas", "16 Okt");
 
-    // ===== SEPTEMBER =====
-    p = cariPekan(daftarBulan[8].root, 2);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "sistembasisdata");
+    tambahDataKeBulan(bulan[9], 3, "sistemoperasi", "Virtual Memory", "Tugas", "21 Okt");
+    tambahDataKeBulan(bulan[9], 3, "strukturdata", "Segment Tree", "Tugas", "23 Okt");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "SQL Query");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "15 Sep");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[9], 4, "strukturdata", "Sorting & Searching", "Tugas", "28 Okt");
+    tambahDataKeBulan(bulan[9], 4, "sistemoperasi", "Distributed OS", "Tugas", "30 Okt");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    // ========== NOVEMBER ==========
+    tambahDataKeBulan(bulan[10], 1, "sistembasisdata", "NoSQL Database", "Tugas", "5 Nov");
+    tambahDataKeBulan(bulan[10], 1, "teoripeluang", "Machine Learning", "Tugas", "8 Nov");
 
-    // ===== OKTOBER =====
-    p = cariPekan(daftarBulan[9].root, 4);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "strukturdata");
+    tambahDataKeBulan(bulan[10], 2, "teoribahasaautomata", "Context Free", "Tugas", "12 Nov");
+    tambahDataKeBulan(bulan[10], 2, "strukturdata", "Trie", "Tugas", "15 Nov");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Sorting & Searching");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "28 Okt");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[10], 3, "teoripeluang", "Uji Hipotesis", "Tugas", "20 Nov");
+    tambahDataKeBulan(bulan[10], 3, "sistemoperasi", "Cloud Computing", "Tugas", "22 Nov");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[10], 4, "sistemoperasi", "Final Project", "Proyek", "28 Nov");
+    tambahDataKeBulan(bulan[10], 4, "strukturdata", "Final Review", "Tugas", "30 Nov");
 
-    // ===== NOVEMBER =====
-    p = cariPekan(daftarBulan[10].root, 3);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "teoripeluang");
+    // ========== DESEMBER ==========
+    tambahDataKeBulan(bulan[11], 1, "strukturdata", "Final Exam", "Ujian", "5 Des");
+    tambahDataKeBulan(bulan[11], 1, "teoripeluang", "Final Review", "Tugas", "7 Des");
 
-        t = new Tugas;
-        salinString(t->namaTugas, "Uji Hipotesis");
-        salinString(t->jenisTugas, "Tugas");
-        salinString(t->tenggatWaktu, "20 Nov");
-        t->berikutnya = NULL;
+    tambahDataKeBulan(bulan[11], 2, "sistemoperasi", "Final Project", "Proyek", "15 Des");
+    tambahDataKeBulan(bulan[11], 2, "sistembasisdata", "Final Project", "Proyek", "17 Des");
 
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
-
-    // ===== DESEMBER =====
-    p = cariPekan(daftarBulan[11].root, 2);
-    if (p) {
-        m = new MataKuliah;
-        salinString(m->namaMatkul, "sistemoperasi");
-
-        t = new Tugas;
-        salinString(t->namaTugas, "Final Project");
-        salinString(t->jenisTugas, "Proyek");
-        salinString(t->tenggatWaktu, "15 Des");
-        t->berikutnya = NULL;
-
-        m->daftarTugas = t;
-        m->berikutnya = p->daftarMatkul;
-        p->daftarMatkul = m;
-    }
+    tambahDataKeBulan(bulan[11], 3, "teoripeluang", "Final Exam", "Ujian", "20 Des");
+    tambahDataKeBulan(bulan[11], 3, "teoribahasaautomata", "Final Project", "Proyek", "22 Des");
 }
+
+// Fungsi untuk mengisi data contoh untuk bulan tertentu
+void isiDataContoh(Bulan& bulan)
+{
+    // Data contoh untuk bulan Januari (untuk fitur pencarian)
+    tambahDataKeBulan(bulan, 1, "strukturdata", "Quiz Linked List", "Quiz", "10 Jan");
+    tambahDataKeBulan(bulan, 1, "strukturdata", "Tugas Stack", "Tugas", "12 Jan");
+
+    tambahDataKeBulan(bulan, 2, "sistembasisdata", "ER Diagram", "Tugas", "15 Jan");
+    tambahDataKeBulan(bulan, 2, "sistembasisdata", "Normalisasi", "Tugas", "18 Jan");
+
+    tambahDataKeBulan(bulan, 3, "sistemoperasi", "Tugas Process", "Tugas", "20 Jan");
+    tambahDataKeBulan(bulan, 3, "sistemoperasi", "CPU Scheduling", "Tugas", "22 Jan");
+
+    tambahDataKeBulan(bulan, 4, "strukturdata", "UTS", "Ujian", "25 Jan");
+    tambahDataKeBulan(bulan, 4, "teoripeluang", "Probabilitas", "Tugas", "28 Jan");
+    tambahDataKeBulan(bulan, 4, "teoribahasaautomata", "Finite Automata", "Tugas", "30 Jan");
 }
