@@ -1,2 +1,3 @@
-Edit #4 :
-comment masih disimpan dalam program agar memudahkan cari fitur, untuk menu 3 cari mata kuliah sudah diganti seperti menu 4 agar tidak perlu mengetik nama mata kuliahnya (masih AI 😂)
+Edit #7(?):
+
+Tambah fitur hapus tugas sebagai tanda tugas selesai.
