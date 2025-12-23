@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1766329952 source:d:\tugastelu\smst3\struktur data\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\bulan.cpp
+	"bulan.h"
+	<iostream>
+
+1766329421 d:\tugastelu\smst3\struktur data\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\bulan.h
+	"projek.h"
+
+1766365625 d:\tugastelu\smst3\struktur data\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\projek.h
+	<iostream>
+
+1766453628 source:d:\tugastelu\smst3\struktur data\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\projek.cpp
+	"projek.h"
+	<iostream>
+	<cctype>
+
+1766331428 source:d:\tugastelu\smst3\struktur data\programtrackingtugasmahasiswa-tubesstd\projecttrackingtugasmahasiswa\main.cpp
+	"projek.h"
+	"bulan.h"
+	<iostream>
+
